@@ -20,7 +20,7 @@ class ApiAuthenticateController extends Controller {
     }
 
     /**
-     * Verifies the email and password of a user in the user
+     * Verifies the username and password of a user in the user
      * table and sets the JWT with the user id and an expiration
      * date of 90 days from the time it was generated, as well as
      * the time it was generated.
@@ -29,16 +29,16 @@ class ApiAuthenticateController extends Controller {
      */
     protected function processRequest() {
         $data = [];
-        $email = $this->getRequest()->getParameter("email");
+        $username = $this->getRequest()->getParameter("username");
         $password = $this->getRequest()->getParameter("password");
 
         if ($this->getRequest()->getRequestMethod() === "POST") {
             // Check if parameters are null
             // Return a 401 status otherwise
-            if (!is_null($email) && !is_null($password)) {
-                $this->gateway->findPassword($email);
+            if (!is_null($username) && !is_null($password)) {
+                $this->gateway->findPassword($username);
                 if (count($this->gateway->getResult()) == 1) {
-                    $hashPassword = $this->getGateway()->getResult()[0]['password'];
+                    $hashPassword = $this->gateway->getResult()[0]['password'];
 
                     // Verify if the passwords match
                     // If so, create a token
@@ -46,10 +46,9 @@ class ApiAuthenticateController extends Controller {
 
                         // Setting token payload
                         $payload = array(
-                            "user_id" => $this->getGateway()->getResult()[0]['id'],
-                            "email" => $this->getGateway()->getResult()[0]['email'],
-                            "iss" => "...", // TODO: add url here
-                            "exp" => time() + 900, // TODO: Check session expiration with savannah
+                            "user_id" => $this->gateway->getResult()[0]['id'],
+                            "iss" => "http://unn-w18014333.newnumyspace.co.uk",
+                            "exp" => time() + 900,
                             "iat" => time()
                         );
 

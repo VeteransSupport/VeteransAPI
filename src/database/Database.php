@@ -30,8 +30,8 @@ class Database {
      * @param string $dbName Database file path
      */
     private function setDbConnection($dbName) {
-        $this->dbConnection = new PDO('sqlite:'.$dbName);
-        $this->dbConnection->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+            $this->dbConnection = new PDO('sqlite:'.$dbName);
+            $this->dbConnection->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
     }
 
     /**

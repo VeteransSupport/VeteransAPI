@@ -48,7 +48,7 @@ class JSONResponse extends Response {
     public function getData() {
         if (is_null($this->message)) {
             if (count($this->data) === 0) {
-                $this->message = "no content"; // TODO: doesnt work!
+                $this->message = "no content";
                 $this->setStatusCode(204);
             } else {
                 $this->setMessage("ok");
