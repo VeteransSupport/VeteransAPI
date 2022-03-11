@@ -3,7 +3,7 @@ namespace src\gateways;
 
 /**
  * This gateway queries the USER database for the
- * password associated with an email and returns
+ * password associated with a username and returns
  * the hashed password stored in the database.
  *
  * @author Pervaiz Ahmad w18014333
@@ -19,13 +19,13 @@ class UserGateway extends Gateway  {
     }
 
     /**
-     * Finds the password using the user's email.
+     * Finds the password using the user's username.
      *
-     * @param $email string The user's email
+     * @param $username string The user's username
      */
-    public function findPassword($email) {
-        $sql = "Select * from user where email = :email";
-        $params = [":email" => $email];
+    public function findPassword($username) {
+        $sql = "Select * from user where email = :username";
+        $params = [":username" => $username];
         $result = $this->getDatabase()->executeSQL($sql, $params);
         $this->setResult($result);
     }
@@ -34,12 +34,12 @@ class UserGateway extends Gateway  {
      * Adds a new user to the User database using the
      * user's email and password
      *
-     * @param $email string The email of the new user
+     * @param $username string The username of the new user
      * @param $password string The password of the new user
      */
-    public function addUser($email, $password) {
-        $sql = "INSERT INTO user (email, password) VALUES (:email, :password)";
-        $params = [":email" => $email, ":password" => $password];
+    public function addUser($username, $password) {
+        $sql = "INSERT INTO user (email, password) VALUES (:username, :password)";
+        $params = [":username" => $username, ":password" => $password];
         $result = $this->getDatabase()->executeSQL($sql, $params);
         $this->setResult($result);
     }
@@ -48,11 +48,11 @@ class UserGateway extends Gateway  {
      * Removes a user from the User database using the
      * user's email
      *
-     * @param $email string The email of the user
+     * @param $username string The username of the user
      */
-    public function removeUser($email) {
-        $sql = "DELETE FROM user WHERE email = :email";
-        $params = [":email" => $email];
+    public function removeUser($username) {
+        $sql = "DELETE FROM user WHERE email = :username";
+        $params = [":username" => $username];
         $result = $this->getDatabase()->executeSQL($sql, $params);
         $this->setResult($result);
     }

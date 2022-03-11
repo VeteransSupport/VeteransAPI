@@ -89,11 +89,11 @@ class DocumentationController extends Controller {
         $page->addBreak();
 
         $page->addHeading2("subheading", "api/authenticate" . $page->toLink("adjust-top adjust-left apiLink", "http://unn-w18014333.newnumyspace.co.uk/kf6012/coursework/part1/api/authenticate", "http://unn-w18014333.newnumyspace.co.uk/kf6012/coursework/part1/api/authenticate"));
-        $page->addParagraph("text", "This is the authenticate endpoint which supports only POST requests. Data returned is a token which contains the JWT. This endpoint takes an email and a password as form-data in the body which must be present and a valid entry in the users database for the JWT to be returned. The JWT claims are as follows: user_id, email, iss, exp, iat.");
+        $page->addParagraph("text", "This is the authenticate endpoint which supports only POST requests. Data returned is a token which contains the JWT. This endpoint takes an username and a password as form-data in the body which must be present and a valid entry in the users database for the JWT to be returned. The JWT claims are as follows: user_id, email, iss, exp, iat.");
         $page->addBreak();
         $page->addParagraph("text", $page->addStrong("The following are likely HTTP status codes for this API:"));
         $page->addParagraph("text", $page->addStrong("Status code 405: ") . "If a method other than POST is used, a \"405 : method not allowed\" error message will be returned.");
-        $page->addParagraph("text", $page->addStrong("Status code 401: ") . "If no form-data is provided in the body of the API call, if the data key's are misspelled, or if the email or password do not match any entries in the users database, a \"401 : Authorization Required\" error message will be returned.");
+        $page->addParagraph("text", $page->addStrong("Status code 401: ") . "If no form-data is provided in the body of the API call, if the data key's are misspelled, or if the username or password do not match any entries in the users database, a \"401 : Authorization Required\" error message will be returned.");
         $page->addParagraph("text", $page->addStrong("Status code 200: ") . "If no errors occur, a \"200 : OK\" status code is returned.");
         $page->addBreak();
 
@@ -111,12 +111,12 @@ class DocumentationController extends Controller {
         $page->addBreak();
 
         $page->addHeading2("subheading", "api/update_user" . $page->toLink("adjust-top adjust-left apiLink", "http://unn-w18014333.newnumyspace.co.uk/kf6012/coursework/part1/api/update_user", "http://unn-w18014333.newnumyspace.co.uk/kf6012/coursework/part1/api/update_user"));
-        $page->addParagraph("text", "This is the update user endpoint which supports only POST requests. No JSON data is returned by this API. This endpoint takes an email, password, and request as form-data in the body which must be present. The request form-data must either be \"add\" or \"remove\" to add or remove a user as defined below:");
-        $page->addParagraph("text", $page->addStrong("email & password & request: ") . "If the request form-data is \"add\", a new user is added with the given email and password. If the request form-data is \"remove\" and the email and password match a user entry in the database, then that user is removed from the User database.");
+        $page->addParagraph("text", "This is the update user endpoint which supports only POST requests. No JSON data is returned by this API. This endpoint takes a username, password, and request as form-data in the body which must be present. The request form-data must either be \"add\" or \"remove\" to add or remove a user as defined below:");
+        $page->addParagraph("text", $page->addStrong("username & password & request: ") . "If the request form-data is \"add\", a new user is added with the given username and password. If the request form-data is \"remove\" and the email and password match a user entry in the database, then that user is removed from the User database.");
         $page->addBreak();
         $page->addParagraph("text", $page->addStrong("The following are likely HTTP status codes for this API:"));
         $page->addParagraph("text", $page->addStrong("Status code 405: ") . "If a method other than POST is used, a \"405 : method not allowed\" error message will be returned.");
-        $page->addParagraph("text", $page->addStrong("Status code 500: ") . "If an email which already exists in the database is being added, a \"500 : Internal Server Error\" error message will be returned.");
+        $page->addParagraph("text", $page->addStrong("Status code 500: ") . "If a username which already exists in the database is being added, a \"500 : Internal Server Error\" error message will be returned.");
         $page->addParagraph("text", $page->addStrong("Status code 204: ") . "If no errors occur, a \"204 : No Content\" status code is returned as this endpoint doesnt return any data. This status code will therefore also be returned if a user who doesnt exist in the database is being removed or if the password provided does not match the email.");
 
         return $page->generateWebpage();

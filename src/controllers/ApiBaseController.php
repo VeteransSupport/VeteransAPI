@@ -19,6 +19,6 @@ class ApiBaseController extends Controller {
         $data['message'] = "This is the base API endpoint for the informative application for DIS. It contains the author's name, ID and a link to the API documentation page";
         $data['documentation'] = "http://unn-w18014333.newnumyspace.co.uk/kf6012/coursework/part1/documentation";
 
-        return $data; // TODO: Return json formatted data
+        return $data;
     }
 }
