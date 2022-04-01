@@ -17,7 +17,7 @@ class ApiBaseController extends Controller {
         $data['author']['name'] = "Pervaiz Ahmad";
         $data['author']['id'] = "w18014333";
         $data['message'] = "This is the API for the Veterans App. It is currently in development with irrelevant endpoints which will be later removed. A link to the documentation page is provided however it is only lists the irrelevant endpoints which will be removed.";
-        $data['documentation'] = "http://unn-w18014333.newnumyspace.co.uk/kf6012/coursework/part1/documentation";
+        $data['documentation'] = "http://unn-w18014333.newnumyspace.co.uk/veterans_app/dev/VeteransAPI/documentation";
 
         return $data;
     }
