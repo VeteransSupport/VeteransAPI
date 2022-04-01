@@ -67,9 +67,6 @@ switch ($request->getPath()) {
     case 'api/update_user':
         new ApiUpdateUserController($request, $response);
         break;
-    case 'api/reset_password':
-        new ApiResetPasswordController($request, $response);
-        break;
     default:
         if ($response instanceof HTMLResponse) {
             new HTMLErrorController($request, $response);
