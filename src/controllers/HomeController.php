@@ -23,9 +23,14 @@ class HomeController extends Controller {
         $page->addParagraph("myinfo", "ID" . $page->toSpan("semicolon", ":") . "w18014333");
 
         $page->addHeading1("heading", "Info");
-        $page->addParagraph("text", "Add info");
+        $page->addParagraph("text", "This web application presents information about academic papers on the topic of Designing Interactive Systems (DIS).
+                                                   The target audience are people interested in discovering and reading DIS research papers. This is the API home page
+                                                   and presents information about the API so it can be easily understood and used. The documentation for the API can be
+                                                   found on the documentation page (link located in the navigation bar at the top). The documentation page lists the API
+                                                   endpoints along with their descriptions as well as expected results for given parameters.");
         
         $page->addHeading1("heading adjust-top", "Declaration");
+        $page->addParagraph("text", "This website is university coursework and not associated with or endorsed by the DIS conference.");
         $page->addImage("adjustLogo", "northumbria_logo.png", "Northumbria University Logo");
         return $page->generateWebpage();
     }

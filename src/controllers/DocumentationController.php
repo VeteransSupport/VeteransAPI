@@ -18,6 +18,10 @@ class DocumentationController extends Controller {
     protected function processRequest() {
         $page = new DocumentationPage("Documentation","assets/styles.css");
 
+        $page->addHeading1("heading adjust-top", "Student Info");
+        $page->addParagraph("myinfo", "Name" . $page->toSpan("semicolon", ":") . "Pervaiz Ahmad");
+        $page->addParagraph("myinfo", "ID" . $page->toSpan("semicolon", ":") . "w18014333");
+
         $page->addHeading1("heading", "API Info");
         $page->addParagraph("text", "Below are the endpoints for this REST API. These can be tested in the browsers using the links given. The main endpoint link is provided in full next to every endpoint heading. Note that some endpoints will return a \"405 : Method not allowed\" error message which is expected behaviour. Also note that when testing, if no data is returned by the endpoint the browser will not refresh the page or show the \"204 : No Content\" error message, therefore you will not see en empty response.");
 
