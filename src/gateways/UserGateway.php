@@ -56,4 +56,11 @@ class UserGateway extends Gateway  {
         $result = $this->getDatabase()->executeSQL($sql, $params);
         $this->setResult($result);
     }
+
+    public function resetPassword($user_id, $password) {
+        $sql = "UPDATE user SET password = :password WHERE id = :id";
+        $params = [":id" => $user_id, ":password" => $password];
+        $result = $this->getDatabase()->executeSQL($sql, $params);
+        $this->setResult($result);
+    }
 }
