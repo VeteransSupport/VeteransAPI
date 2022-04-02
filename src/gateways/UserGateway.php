@@ -37,7 +37,7 @@ class UserGateway extends Gateway  {
      * @param $username string The username of the new user
      * @param $password string The password of the new user
      */
-    public function addUser($username, $password) {
+    public function addUser($username, $password, $type_id, $charity_id) {
         $sql = "INSERT INTO user (email, password) VALUES (:username, :password)";
         $params = [":username" => $username, ":password" => $password];
         $result = $this->getDatabase()->executeSQL($sql, $params);

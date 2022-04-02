@@ -31,15 +31,18 @@ class ApiUpdateUserController extends Controller {
     protected function processRequest() {
         $email = $this->getRequest()->getParameter("username");
         $password = $this->getRequest()->getParameter("password");
+        $charity_id = $this->getRequest()->getParameter("charity_id");
+        $type_id = $this->getRequest()->getParameter("type_id");
         $new_password = $this->getRequest()->getParameter("new_password");
         $token = $this->getRequest()->getParameter("token");
         $request = $this->getRequest()->getParameter("request");
 
         if ($this->getRequest()->getRequestMethod() === "POST") {
             if ($request === "add") {
-                if(!is_null($email) && !is_null($password)) {
+                if(!is_null($email) && !is_null($password) &&
+                    !is_null($charity_id) && !is_null($type_id)) {
                     $hashed_password = password_hash($password, PASSWORD_DEFAULT);
-                    $this->gateway->addUser($email, $hashed_password);
+                    $this->gateway->addUser($email, $hashed_password, $type_id, $charity_id);
                 }
             } else if ($request === "remove") {
                 if(!is_null($email) && !is_null($password)) {
