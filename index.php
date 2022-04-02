@@ -14,6 +14,7 @@ use src\controllers\ApiAffiliationController;
 use src\controllers\ApiAuthenticateController;
 use src\controllers\ApiAuthorsController;
 use src\controllers\ApiBaseController;
+use src\controllers\ApiCharitiesController;
 use src\controllers\ApiUpdateUserController;
 use src\controllers\ApiPapersController;
 use src\controllers\ApiReadingListController;
@@ -66,6 +67,9 @@ switch ($request->getPath()) {
         break;
     case 'api/update_user':
         new ApiUpdateUserController($request, $response);
+        break;
+    case 'api/charities':
+        new ApiCharitiesController($request, $response);
         break;
     default:
         if ($response instanceof HTMLResponse) {
