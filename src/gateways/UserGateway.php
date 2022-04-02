@@ -24,8 +24,15 @@ class UserGateway extends Gateway  {
      * @param $username string The user's username
      */
     public function findPassword($username) {
-        $sql = "Select * from user where email = :username";
+        $sql = "SELECT * FROM user WHERE email = :username";
         $params = [":username" => $username];
+        $result = $this->getDatabase()->executeSQL($sql, $params);
+        $this->setResult($result);
+    }
+
+    public function findTypeById($id) {
+        $sql = "SELECT type_id FROM user WHERE id = :id";
+        $params = [":id" => $id];
         $result = $this->getDatabase()->executeSQL($sql, $params);
         $this->setResult($result);
     }

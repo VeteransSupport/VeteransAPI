@@ -18,6 +18,7 @@ use src\controllers\ApiCharitiesController;
 use src\controllers\ApiUpdateUserController;
 use src\controllers\ApiPapersController;
 use src\controllers\ApiReadingListController;
+use src\controllers\ApiUserController;
 use src\controllers\DocumentationController;
 use src\controllers\HTMLErrorController;
 use src\controllers\HomeController;
@@ -59,11 +60,14 @@ switch ($request->getPath()) {
     case 'api/affiliations':
         new ApiAffiliationController($request, $response);
         break;
+    case 'api/reading_list':
+        new ApiReadingListController($request, $response);
+        break;
     case 'api/authenticate':
         new ApiAuthenticateController($request, $response);
         break;
-    case 'api/reading_list':
-        new ApiReadingListController($request, $response);
+    case 'api/user':
+        new ApiUserController($request, $response);
         break;
     case 'api/update_user':
         new ApiUpdateUserController($request, $response);
