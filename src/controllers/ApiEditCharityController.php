@@ -34,7 +34,11 @@ class ApiEditCharityController extends Controller {
                         if ($request === 'edit' && !is_null($id) && !is_null($title) &&!is_null($description)) {
                             $this->gateway->editCharityById($id, $title, $description, $image);
                         } else if ($request === 'create' && !is_null($title) &&!is_null($description)) {
-                            $this->gateway->createCharity($title, $description, $image);
+                            $imageVal = null;
+                            if ($image !== '' ) {
+                                $imageVal = $image;
+                            }
+                            $this->gateway->createCharity($title, $description, $imageVal);
                         } else if ($request === 'delete' && !is_null($id)) {
                             $this->gateway->deleteCharityById($id);
                         } else {
