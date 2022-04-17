@@ -30,8 +30,8 @@ class UserGateway extends Gateway  {
         $this->setResult($result);
     }
 
-    public function findTypeById($id) {
-        $sql = "SELECT type_id FROM user WHERE id = :id";
+    public function findTypeAndCharityById($id) {
+        $sql = "SELECT id, email, type_id, charity_id FROM user WHERE id = :id";
         $params = [":id" => $id];
         $result = $this->getDatabase()->executeSQL($sql, $params);
         $this->setResult($result);
