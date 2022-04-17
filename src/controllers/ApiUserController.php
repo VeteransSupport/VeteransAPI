@@ -21,7 +21,7 @@ class ApiUserController extends Controller {
                 $key = SECRET_KEY;
                 $decoded = JWT::decode($token, new Key($key, 'HS256'));
                 $user_id = $decoded->user_id;
-                $this->gateway->findTypeById($user_id);
+                $this->gateway->findTypeAndCharityById($user_id);
             } else {
                 $this->getResponse()->setMessage("Unauthorized");
                 $this->getResponse()->setStatusCode(401);

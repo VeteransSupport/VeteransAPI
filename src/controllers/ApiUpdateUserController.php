@@ -39,10 +39,36 @@ class ApiUpdateUserController extends Controller {
 
         if ($this->getRequest()->getRequestMethod() === "POST") {
             if ($request === "add") {
-                if(!is_null($email) && !is_null($password) &&
-                    !is_null($charity_id) && !is_null($type_id)) {
-                    $hashed_password = password_hash($password, PASSWORD_DEFAULT);
-                    $this->gateway->addUser($email, $hashed_password, $type_id, $charity_id);
+                if (!is_null($token)) {
+                    $key = SECRET_KEY;
+                    $decoded = JWT::decode($token, new Key($key, 'HS256'));
+                    $user_id = $decoded->user_id;
+
+                    $this->gateway->findTypeAndCharityById($user_id);
+                    if (count($this->gateway->getResult()) == 1) {
+                        $user_type_id = $this->gateway->getResult()[0]['type_id'];
+                        if (($user_type_id !== '4' && $user_type_id !== '5') &&
+                            (($user_type_id === '3' && $type_id === '4') ||
+                            ($user_type_id === '2' && $type_id !== '1' && $type_id !== '2') ||
+                             $user_type_id === '1')) {
+                            if(!is_null($email) && !is_null($password) && !is_null($charity_id)) {
+                                $hashed_password = password_hash($password, PASSWORD_DEFAULT);
+                                $this->gateway->addUser($email, $hashed_password, $type_id, $charity_id);
+                            } else {
+                                $this->gateway->setResult('');
+                                $this->getResponse()->setMessage("Not Acceptable");
+                                $this->getResponse()->setStatusCode(406);
+                            }
+                        } else {
+                            $this->gateway->setResult('');
+                            $this->getResponse()->setMessage("Unauthorized");
+                            $this->getResponse()->setStatusCode(401);
+                        }
+                        return $this->gateway->getResult();
+                    }
+                    $this->gateway->setResult('');
+                    $this->getResponse()->setMessage("Unauthorized");
+                    $this->getResponse()->setStatusCode(401);
                 }
             } else if ($request === "remove") {
                 if(!is_null($email) && !is_null($password)) {
