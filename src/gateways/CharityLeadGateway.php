@@ -31,9 +31,7 @@ class CharityLeadGateway extends Gateway {
     }
 
     public function findCharityAdminAndVeteransByCharityId($charity_id) {
-        $sql = "SELECT id, email, type_id, charity_id FROM user WHERE (type_id = 5 OR type_id = 3) AND charity_id = :charity_id";
-        //SELECT id, email, type_id, charity_id FROM user WHERE type_id = 3 AND charity_id = :charity_id
-        //SELECT id, email, type_id, charity_id FROM user WHERE charity_id = :charity_id AND type_id = 5 OR type_id = 3
+        $sql = "SELECT user.id, user.email, user.type_id, user.charity_id, charities.title FROM user JOIN charities WHERE (user.charity_id = charities.id) AND charities.id = :charity_id AND (type_id = 5 OR type_id = 3)";
         $params = [":charity_id" => $charity_id];
         $result = $this->getDatabase()->executeSQL($sql, $params);
         $this->setResult($result);
