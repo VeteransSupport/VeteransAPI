@@ -31,7 +31,7 @@ class UserGateway extends Gateway  {
     }
 
     public function findTypeAndCharityById($id) {
-        $sql = "SELECT id, email, type_id, charity_id FROM user WHERE id = :id";
+        $sql = "SELECT id, type_id, charity_id, full_name, email, service_number, phone_number, contacts, six_digit_code FROM user WHERE id = :id";
         $params = [":id" => $id];
         $result = $this->getDatabase()->executeSQL($sql, $params);
         $this->setResult($result);
@@ -39,14 +39,75 @@ class UserGateway extends Gateway  {
 
     /**
      * Adds a new user to the User database using the
-     * user's email and password
+     * user's email, password, and charity id.
      *
      * @param $username string The username of the new user
      * @param $password string The password of the new user
+     * @param $charity_id string The charity id of the new user
      */
     public function addUser($username, $password, $type_id, $charity_id) {
         $sql = "INSERT INTO user (email, password, charity_id, type_id) VALUES (:username, :password, :charity_id, :type_id)";
         $params = [":username" => $username, ":password" => $password, ":charity_id" => $charity_id, ":type_id" => $type_id];
+        $result = $this->getDatabase()->executeSQL($sql, $params);
+        $this->setResult($result);
+    }
+
+    public function signupUser($full_name, $email, $service_number, $phone_number, $hashed_password, $charity_id, $contacts, $six_digit_code) {
+        $sql = "INSERT INTO user (
+                  type_id,
+                  charity_id,
+                  full_name,
+                  email,
+                  service_number,
+                  phone_number,
+                  password,
+                  contacts,
+                  six_digit_code
+                  ) VALUES (
+                            5,
+                            :charity_id,
+                            :full_name,
+                            :email,
+                            :service_number,
+                            :phone_number,
+                            :hashed_password,
+                            :contacts,
+                            :six_digit_code
+                  )";
+        $params = [
+            ":full_name" => $full_name,
+            ":email" => $email,
+            ":service_number" => $service_number,
+            ":phone_number" => $phone_number,
+            ":hashed_password" => $hashed_password,
+            ":charity_id" => $charity_id,
+            ":contacts" => $contacts,
+            ":six_digit_code" => $six_digit_code
+        ];
+        $result = $this->getDatabase()->executeSQL($sql, $params);
+        $this->setResult($result);
+    }
+
+    public function updateUser($id, $full_name, $email, $service_number, $phone_number, $charity_id, $contacts, $six_digit_code) {
+        $sql = "UPDATE user SET
+        charity_id = :charity_id,
+        full_name = :full_name,
+        email = :email,
+        service_number = :service_number,
+        phone_number = :phone_number,
+        contacts = :contacts,
+        six_digit_code = :six_digit_code
+        WHERE id = :id";
+        $params = [
+            ":id" => $id,
+            ":full_name" => $full_name,
+            ":email" => $email,
+            ":service_number" => $service_number,
+            ":phone_number" => $phone_number,
+            ":charity_id" => $charity_id,
+            ":contacts" => $contacts,
+            ":six_digit_code" => $six_digit_code
+        ];
         $result = $this->getDatabase()->executeSQL($sql, $params);
         $this->setResult($result);
     }

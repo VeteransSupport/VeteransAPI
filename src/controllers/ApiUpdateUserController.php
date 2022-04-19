@@ -29,13 +29,19 @@ class ApiUpdateUserController extends Controller {
      *                endpoint called
      */
     protected function processRequest() {
-        $email = $this->getRequest()->getParameter("username");
-        $password = $this->getRequest()->getParameter("password");
-        $charity_id = $this->getRequest()->getParameter("charity_id");
         $type_id = $this->getRequest()->getParameter("type_id");
         $new_password = $this->getRequest()->getParameter("new_password");
         $token = $this->getRequest()->getParameter("token");
         $request = $this->getRequest()->getParameter("request");
+
+        $full_name = $this->getRequest()->getParameter("full_name");
+        $email = $this->getRequest()->getParameter("username");
+        $service_number = $this->getRequest()->getParameter("service_number");
+        $phone_number = $this->getRequest()->getParameter("phone_number");
+        $password = $this->getRequest()->getParameter("password");
+        $charity_id = $this->getRequest()->getParameter("charity_id");
+        $contacts = $this->getRequest()->getParameter("contacts");
+        $six_digit_code = $this->getRequest()->getParameter("six_digit_code");
 
         if ($this->getRequest()->getRequestMethod() === "POST") {
             if ($request === "add") {
@@ -49,8 +55,8 @@ class ApiUpdateUserController extends Controller {
                         $user_type_id = $this->gateway->getResult()[0]['type_id'];
                         if (($user_type_id !== '4' && $user_type_id !== '5') &&
                             (($user_type_id === '3' && $type_id === '4') ||
-                            ($user_type_id === '2' && $type_id !== '1' && $type_id !== '2') ||
-                             $user_type_id === '1')) {
+                            ($user_type_id === '2' && ($type_id === '3' || $type_id === '4')) ||
+                            $user_type_id === '1')) { // ($user_type_id === '1' && $type_id !== '5') // Do this after signup is working
                             if(!is_null($email) && !is_null($password) && !is_null($charity_id)) {
                                 $hashed_password = password_hash($password, PASSWORD_DEFAULT);
                                 $this->gateway->addUser($email, $hashed_password, $type_id, $charity_id);
@@ -69,6 +75,36 @@ class ApiUpdateUserController extends Controller {
                     $this->gateway->setResult('');
                     $this->getResponse()->setMessage("Unauthorized");
                     $this->getResponse()->setStatusCode(401);
+                }
+            } else if ($request === "signup") {
+                if (!is_null($full_name) && !is_null($email) &&
+                    !is_null($service_number) && !is_null($phone_number) &&
+                    !is_null($password) && !is_null($charity_id) &&
+                    !is_null($contacts) && !is_null($six_digit_code)) {
+                    // Send email to all contacts using $six_digit_code
+
+                    $hashed_password = password_hash($password, PASSWORD_DEFAULT);
+                    $this->gateway->signupUser($full_name, $email, $service_number, $phone_number, $hashed_password, $charity_id, $contacts, $six_digit_code);
+                } else {
+                    $this->getResponse()->setMessage("Not Acceptable");
+                    $this->getResponse()->setStatusCode(406);
+                }
+            } else if ($request === "change_details") {
+                if (!is_null($full_name) && !is_null($email) &&
+                    !is_null($token) && !is_null($service_number) &&
+                    !is_null($phone_number) && !is_null($charity_id) &&
+                    !is_null($contacts) && !is_null($six_digit_code)) {
+                    // Send email to any new contacts using $six_digit_code
+
+                    // Get Key from token
+                    $key = SECRET_KEY;
+                    $decoded = JWT::decode($token, new Key($key, 'HS256'));
+                    $user_id = $decoded->user_id;
+
+                    $this->gateway->updateUser($user_id, $full_name, $email, $service_number, $phone_number, $charity_id, $contacts, $six_digit_code);
+                } else {
+                    $this->getResponse()->setMessage("Not Acceptable");
+                    $this->getResponse()->setStatusCode(406);
                 }
             } else if ($request === "remove") {
                 if(!is_null($email) && !is_null($password)) {
