@@ -7,7 +7,7 @@ use src\Firebase\JWT\Key;
 use src\gateways\SupportUsersGateway;
 use src\responses\JSONResponse;
 
-class ApiSupportUsersController extends Controller {
+class ApiSuppAppUsersController extends Controller {
 
     protected function setGateway() {
         $this->gateway = new SupportUsersGateway();
@@ -30,24 +30,21 @@ class ApiSupportUsersController extends Controller {
                 $this->gateway->findTypeAndCharityById($user_id);
                 if (count($this->gateway->getResult()) == 1) {
                     $type_id = $this->gateway->getResult()[0]['type_id'];
-                    $currentCharityID = $this->gateway->getResult()[0]['charity_id'];
 
-                    if ($type_id === '3' || $type_id === '2' || $type_id === '1') {
+                    if ($type_id === '1') {
                         if(is_null($request)){
-                            if (!is_null($id) && $type_id === '1') {
-                                $this->gateway->findSupportUserById($id, $charityID);
-                            } else if (!is_null($id)) {
-                                $this->gateway->findSupportUserById($id, $currentCharityID);
+                            if (!is_null($id)) {
+                                $this->gateway->findCharityUserById($id);
                             } else {
-                                    $this->gateway->findAllSupportUsers($currentCharityID);
+                                $this->gateway->findAllCharityUsers($currentCharityID);
                             }
                             return $this->gateway->getResult();
-                        } else if ($request === 'add' && !is_null($email) && !is_null($password) && !is_null($charity_id)) {
+                        } else if ($request === 'add' && !is_null($email) &&!is_null($password) && !is_null($charity_id)) {
                             $hashed_password = password_hash($password, PASSWORD_DEFAULT);
                             $this->gateway->addCharitySupport($email, $hashed_password, "4", $charity_id);
-                        } else if ($request === 'add' && !is_null($email) &&!is_null($password)) {
+                        } else if ($request === 'add' && !is_null($email) && !is_null($password)) {
                             $hashed_password = password_hash($password, PASSWORD_DEFAULT);
-                            $this->gateway->addCharitySupport($email, $hashed_password, "4", $currentCharityID);
+                            $this->gateway->addAppSupport($email, $hashed_password, "2");
                         } else if ($request === 'delete' && !is_null($id)) {
                             $this->gateway->deleteUserById($id);
                         } else {

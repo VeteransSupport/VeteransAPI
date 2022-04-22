@@ -17,6 +17,7 @@ use src\controllers\ApiBaseController;
 use src\controllers\ApiCharitiesController;
 use src\controllers\ApiEditCharityController;
 use src\controllers\ApiUpdateUserController;
+use src\controllers\ApiSuppAppUsersController;
 use src\controllers\ApiSupportUsersController;
 use src\controllers\ApiEditSupportUserController;
 use src\controllers\ApiVeteranUsersController;
@@ -82,6 +83,9 @@ switch ($request->getPath()) {
         break;
     case 'api/edit_charity':
         new ApiEditCharityController($request, $response);
+        break;
+    case 'api/suppapp_users':
+        new ApiSuppAppUsersController($request, $response);
         break;
     case 'api/support_users':
         new ApiSupportUsersController($request, $response);
