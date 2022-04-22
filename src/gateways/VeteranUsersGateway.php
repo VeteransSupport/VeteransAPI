@@ -32,4 +32,9 @@ class VeteranUsersGateway extends Gateway {
         $this->setResult($result);
     }
 
+    public function findVeteranUsers() {
+        $sql = "SELECT user.id, user.email, user.type_id, user.charity_id, charities.title FROM user JOIN charities WHERE (user.charity_id = charities.id) AND type_id = 5";
+        $result = $this->getDatabase()->executeSQL($sql);
+        $this->setResult($result);
+    }
 }
