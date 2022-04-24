@@ -38,7 +38,7 @@ class UserGateway extends Gateway  {
     }
 
     public function findUserRegistry($id) {
-        $sql = "SELECT id, type FROM user_type WHERE id > :id";
+        $sql = "SELECT id, name FROM user_type WHERE id > :id";
         $params = [":id" => $id];
         $result = $this->getDatabase()->executeSQL($sql, $params);
         $this->setResult($result);
