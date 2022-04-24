@@ -35,11 +35,13 @@ class ApiSupportUsersController extends Controller {
                     if ($type_id === '3' || $type_id === '2' || $type_id === '1') {
                         if(is_null($request)){
                             if (!is_null($id) && $type_id === '1') {
-                                $this->gateway->findSupportUserById($id, $charityID);
+                                $this->gateway->findCharityUserById($id);
                             } else if (!is_null($id)) {
                                 $this->gateway->findSupportUserById($id, $currentCharityID);
+                            } else if ($type_id === '1') {
+                                $this->gateway->findAllCharityUsers();
                             } else {
-                                    $this->gateway->findAllSupportUsers($currentCharityID);
+                                $this->gateway->findAllSupportUsers($currentCharityID);
                             }
                             return $this->gateway->getResult();
                         } else if ($request === 'add' && !is_null($email) && !is_null($password) && !is_null($charity_id)) {
