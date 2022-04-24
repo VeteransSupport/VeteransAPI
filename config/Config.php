@@ -1,7 +1,6 @@
 <?php
 define('BASEPATH', "/veterans_app/dev/VeteransAPI/");
-define('DIS_DATABASE', 'db/dis.sqlite');
-define('USER_DATABASE', 'db/sqlite/user.db');
+define('USER_DATABASE', 'db/user.db');
 define('SECRET_KEY', 'dIjf7u7h2A1yceuHHk87ff675GmS2Gad');
 define('DEVELOPMENT_MODE', true);
 
