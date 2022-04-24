@@ -44,6 +44,7 @@ class ApiUpdateUserController extends Controller {
         $charity_id = $this->getRequest()->getParameter("charity_id");
         $contacts = $this->getRequest()->getParameter("contacts");
         $six_digit_code = $this->getRequest()->getParameter("six_digit_code");
+        $quiz_results = $this->getRequest()->getParameter("quiz_results");
 
         if ($this->getRequest()->getRequestMethod() === "POST") {
             if ($request === "add") {
@@ -89,6 +90,31 @@ class ApiUpdateUserController extends Controller {
                         $user_type_id = $this->gateway->getResult()[0]['type_id'];
                         if ($user_type_id === '5') {
                             $this->gateway->updateMoodById($user_id, $mood, $last_updated);
+                        } else {
+                            $this->gateway->setResult('');
+                            $this->getResponse()->setMessage("Unauthorized");
+                            $this->getResponse()->setStatusCode(401);
+                        }
+                        return $this->gateway->getResult();
+                    }
+                    $this->gateway->setResult('');
+                    $this->getResponse()->setMessage("Unauthorized");
+                    $this->getResponse()->setStatusCode(401);
+                } else {
+                    $this->getResponse()->setMessage("Unauthorized");
+                    $this->getResponse()->setStatusCode(401);
+                }
+            } else if ($request === "update_quiz_results") {
+                if (!is_null($token) && !is_null($mood) && !is_null($last_updated) && !is_null($quiz_results)) {
+                    $key = SECRET_KEY;
+                    $decoded = JWT::decode($token, new Key($key, 'HS256'));
+                    $user_id = $decoded->user_id;
+
+                    $this->gateway->findTypeAndCharityById($user_id);
+                    if (count($this->gateway->getResult()) == 1){
+                        $user_type_id = $this->gateway->getResult()[0]['type_id'];
+                        if ($user_type_id === '5') {
+                            $this->gateway->updateMoodAndQuizById($user_id, $mood, $last_updated, $quiz_results);
                         } else {
                             $this->gateway->setResult('');
                             $this->getResponse()->setMessage("Unauthorized");

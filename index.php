@@ -16,6 +16,7 @@ use src\controllers\ApiAuthorsController;
 use src\controllers\ApiBaseController;
 use src\controllers\ApiCharitiesController;
 use src\controllers\ApiEditCharityController;
+use src\controllers\ApiQuizController;
 use src\controllers\ApiUpdateUserController;
 use src\controllers\ApiSupportUsersController;
 use src\controllers\ApiEditSupportUserController;
@@ -48,25 +49,10 @@ switch ($request->getPath()) {
     case '':
     case 'home':
     case 'index.php':
-        new HomeController($request, $response);
-        break;
-    case 'documentation':
-        new DocumentationController($request, $response);
+        // new HomeController($request, $response);
         break;
     case 'api':
         new ApiBaseController($request, $response);
-        break;
-    case 'api/authors':
-        new ApiAuthorsController($request, $response);
-        break;
-    case 'api/papers':
-        new ApiPapersController($request, $response);
-        break;
-    case 'api/affiliations':
-        new ApiAffiliationController($request, $response);
-        break;
-    case 'api/reading_list':
-        new ApiReadingListController($request, $response);
         break;
     case 'api/authenticate':
         new ApiAuthenticateController($request, $response);
@@ -94,6 +80,9 @@ switch ($request->getPath()) {
         break;
     case 'api/charity_lead':
         new ApiCharityLeadController($request, $response);
+        break;
+    case 'api/quiz':
+        new ApiQuizController($request, $response);
         break;
     default:
         if ($response instanceof HTMLResponse) {
