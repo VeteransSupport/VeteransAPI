@@ -17,7 +17,6 @@ use src\controllers\ApiBaseController;
 use src\controllers\ApiCharitiesController;
 use src\controllers\ApiEditCharityController;
 use src\controllers\ApiUpdateUserController;
-use src\controllers\ApiSuppAppUsersController;
 use src\controllers\ApiSupportUsersController;
 use src\controllers\ApiEditSupportUserController;
 use src\controllers\ApiVeteranUsersController;
