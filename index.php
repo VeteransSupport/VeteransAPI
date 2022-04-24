@@ -16,6 +16,7 @@ use src\controllers\ApiAuthorsController;
 use src\controllers\ApiBaseController;
 use src\controllers\ApiCharitiesController;
 use src\controllers\ApiEditCharityController;
+use src\controllers\ApiQuizController;
 use src\controllers\ApiUpdateUserController;
 use src\controllers\ApiSupportUsersController;
 use src\controllers\ApiEditSupportUserController;
@@ -94,6 +95,9 @@ switch ($request->getPath()) {
         break;
     case 'api/charity_lead':
         new ApiCharityLeadController($request, $response);
+        break;
+    case 'api/quiz':
+        new ApiQuizController($request, $response);
         break;
     default:
         if ($response instanceof HTMLResponse) {
