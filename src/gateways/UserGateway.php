@@ -37,6 +37,13 @@ class UserGateway extends Gateway  {
         $this->setResult($result);
     }
 
+    public function findUserRegistry($id) {
+        $sql = "SELECT id, type FROM user_type WHERE id > :id";
+        $params = [":id" => $id];
+        $result = $this->getDatabase()->executeSQL($sql, $params);
+        $this->setResult($result);
+    }
+
     /**
      * Adds a new user to the User database using the
      * user's email, password, and charity id.
