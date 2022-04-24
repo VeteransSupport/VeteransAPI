@@ -34,7 +34,7 @@ class ApiSupportUsersController extends Controller {
 
                     if ($type_id === '3' || $type_id === '2' || $type_id === '1') {
                         if(is_null($request)){
-                            if (!is_null($id) && $type_id === '1') {
+                            if (!is_null($id) && ($type_id === '1' || $type_id === '2')) {
                                 $this->gateway->findCharityUserById($id);
                             } else if (!is_null($id)) {
                                 $this->gateway->findSupportUserById($id, $currentCharityID);
