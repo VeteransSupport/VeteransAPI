@@ -29,6 +29,8 @@ class ApiVeteranUsersController extends Controller {
 
                     if ($type_id === '3') {
                         $this->gateway->findVeteranUsersByTypeId($currentCharityID);
+                    } else if ($type_id === '1' || $type_id === '2') {
+                        $this->gateway->findVeteranUsers();
                     } else {
                         $this->getResponse()->setMessage("Unauthorized");
                         $this->getResponse()->setStatusCode(401);

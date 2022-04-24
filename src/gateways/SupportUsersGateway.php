@@ -15,6 +15,17 @@ class SupportUsersGateway extends Gateway {
 //        $result = $this->getDatabase()->executeSQL($this->sql);
 //        $this->setResult($result);
 //    }
+    public function findAllCharityUsers() {
+        $sql = "SELECT user.id, user.email, user.charity_id, charities.title FROM user JOIN charities WHERE (user.charity_id = charities.id) AND (type_id IN (2,4))";
+        $result = $this->getDatabase()->executeSQL($sql);
+        $this->setResult($result);
+    }
+
+    public function findTheSupportUsers() {
+        $sql = "SELECT user.id, user.email, user.charity_id, charities.title FROM user JOIN charities WHERE (user.charity_id = charities.id) AND type_id = 4";
+        $result = $this->getDatabase()->executeSQL($sql);
+        $this->setResult($result);
+    }
 
     public function findAllSupportUsers($charity_id) {
         $sql = "SELECT user.id, user.email, user.charity_id, charities.title FROM user JOIN charities WHERE (user.charity_id = charities.id) AND charities.id = :charity_id AND type_id = 4";
@@ -22,12 +33,20 @@ class SupportUsersGateway extends Gateway {
         $result = $this->getDatabase()->executeSQL($sql, $params);
         $this->setResult($result);
     }
+
     //SELECT user.id, user.email, charities.title FROM user JOIN charities WHERE user.charity_id = charities.id AND type_id = 4
     //SELECT user.id, user.email, charities.title FROM charities JOIN user WHERE charities.id = user.charity_id AND user.type_id = 4
 
     public function findSupportUserById($id, $charity_id) {
         $this->sql .= " WHERE id = :id AND charity_id = :charity_id";
         $params = ["id" => $id, "charity_id" => $charity_id];
+        $result = $this->getDatabase()->executeSQL($this->sql, $params);
+        $this->setResult($result);
+    }
+
+    public function findCharityUserById($id) {
+        $sql = "SELECT id, email, type_id, charity_id FROM user WHERE id = :id";
+        $params = ["id" => $id];
         $result = $this->getDatabase()->executeSQL($this->sql, $params);
         $this->setResult($result);
     }
@@ -50,6 +69,13 @@ class SupportUsersGateway extends Gateway {
         $this->sql = "INSERT INTO user (email, password, type_id, charity_id) VALUES (:email, :password, :type_id, :charity_id)";
         $params = [":email" => $email, ":password" => $password, ":charity_id" => $charity_id, ":type_id" => $type_id];
         $result = $this->getDatabase()->executeSQL($this->sql, $params);
+        $this->setResult($result);
+    }
+
+    public function addAppSupport($email, $password, $type_id) {
+        $this->sql = "INSERT INTO user (email, password, type_id) VALUES (:email, :password, :type_id)";
+        $params = [":email" => $email, ":password" => $password, ":type_id" => $type_id];
+        $result = $this->getDatabase()->execiteSQL($this->sql, $params);
         $this->setResult($result);
     }
 
