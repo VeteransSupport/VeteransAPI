@@ -31,7 +31,7 @@ class UserGateway extends Gateway  {
     }
 
     public function findTypeAndCharityById($id) {
-        $sql = "SELECT id, type_id, charity_id, full_name, email, service_number, phone_number, contacts, six_digit_code FROM user WHERE id = :id";
+        $sql = "SELECT id, type_id, charity_id, full_name, email, service_number, phone_number, contacts, six_digit_code, mood, last_updated FROM user WHERE id = :id";
         $params = [":id" => $id];
         $result = $this->getDatabase()->executeSQL($sql, $params);
         $this->setResult($result);
@@ -128,6 +128,13 @@ class UserGateway extends Gateway  {
     public function resetPassword($user_id, $password) {
         $sql = "UPDATE user SET password = :password WHERE id = :id";
         $params = [":id" => $user_id, ":password" => $password];
+        $result = $this->getDatabase()->executeSQL($sql, $params);
+        $this->setResult($result);
+    }
+
+    public function updateMoodById($user_id, $mood, $last_updated) {
+        $sql = "UPDATE user SET mood = :mood, last_updated = :last_updated WHERE id = :id";
+        $params = [":id" => $user_id, ":mood" => $mood, ":last_updated" => $last_updated];
         $result = $this->getDatabase()->executeSQL($sql, $params);
         $this->setResult($result);
     }
