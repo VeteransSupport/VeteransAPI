@@ -49,10 +49,25 @@ switch ($request->getPath()) {
     case '':
     case 'home':
     case 'index.php':
-        // new HomeController($request, $response);
+        new HomeController($request, $response);
+        break;
+    case 'documentation':
+        new DocumentationController($request, $response);
         break;
     case 'api':
         new ApiBaseController($request, $response);
+        break;
+    case 'api/authors':
+        new ApiAuthorsController($request, $response);
+        break;
+    case 'api/papers':
+        new ApiPapersController($request, $response);
+        break;
+    case 'api/affiliations':
+        new ApiAffiliationController($request, $response);
+        break;
+    case 'api/reading_list':
+        new ApiReadingListController($request, $response);
         break;
     case 'api/authenticate':
         new ApiAuthenticateController($request, $response);
