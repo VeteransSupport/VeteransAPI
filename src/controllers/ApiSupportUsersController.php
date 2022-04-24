@@ -19,6 +19,7 @@ class ApiSupportUsersController extends Controller {
         $id = $this->getRequest()->getParameter("id");
         $email = $this->getRequest()->getParameter("email");
         $password = $this->getRequest()->getParameter("password");
+        $userType_id = $this->getRequest()->getParameter("type_id");
         $charity_id = $this->getRequest()->getParameter("charity_id");
 
         if ($this->getRequest()->getRequestMethod() === "GET") {
@@ -46,10 +47,13 @@ class ApiSupportUsersController extends Controller {
                                 $this->gateway->findAllCharityUsers();
                             }
                             return $this->gateway->getResult();
-                        } else if ($request === 'add' && !is_null($email) && !is_null($password) && !is_null($charity_id)) {
+                        } else if ($request === 'add' && !is_null($email) && !is_null($password) && !is_null($userType_id)  && !is_null($charity_id)) {
                             $hashed_password = password_hash($password, PASSWORD_DEFAULT);
-                            $this->gateway->addCharitySupport($email, $hashed_password, "4", $charity_id);
-                        } else if ($request === 'add' && !is_null($email) &&!is_null($password)) {
+                            $this->gateway->addCharitySupport($email, $hashed_password, $userType_id, $charity_id);
+                        } else if ($request === 'add' && !is_null($email) && !is_null($password) && !is_null($userType_id) && $type_id === '1') {
+                            $hashed_password = password_hash($password, PASSWORD_DEFAULT);
+                            $this->gateway->addAppSupport($email, $hashed_password, $userType_id);
+                        } else if ($request === 'add' && !is_null($email) && !is_null($password)) {
                             $hashed_password = password_hash($password, PASSWORD_DEFAULT);
                             $this->gateway->addCharitySupport($email, $hashed_password, "4", $currentCharityID);
                         } else if ($request === 'delete' && !is_null($id)) {
