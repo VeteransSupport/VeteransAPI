@@ -84,9 +84,6 @@ switch ($request->getPath()) {
     case 'api/edit_charity':
         new ApiEditCharityController($request, $response);
         break;
-    case 'api/suppapp_users':
-        new ApiSuppAppUsersController($request, $response);
-        break;
     case 'api/support_users':
         new ApiSupportUsersController($request, $response);
         break;
