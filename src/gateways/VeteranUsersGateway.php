@@ -26,7 +26,7 @@ class VeteranUsersGateway extends Gateway {
     }
 
     public function findVeteranUsersByTypeId($charity_id) {
-        $sql = "SELECT user.id, user.email, user.type_id, user.charity_id, charities.title FROM user JOIN charities WHERE (user.charity_id = charities.id) AND charities.id = :charity_id AND type_id = 5";
+        $sql = "SELECT user.id, user.email, user.type_id, user.charity_id, user.mood, charities.title FROM user JOIN charities WHERE (user.charity_id = charities.id) AND charities.id = :charity_id AND type_id = 5 ORDER BY mood";
         $params = [":charity_id" => $charity_id];
         $result = $this->getDatabase()->executeSQL($sql, $params);
         $this->setResult($result);
