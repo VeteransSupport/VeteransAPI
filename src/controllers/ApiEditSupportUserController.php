@@ -19,6 +19,8 @@ class ApiEditSupportUserController extends Controller {
         $id = $this->getRequest()->getParameter("id");
         $email = $this->getRequest()->getParameter("email");
         $password = $this->getRequest()->getParameter("password");
+        $charity_id = $this->getRequest()->getParameter("charity_id");
+        $userType_id = $this->getRequest()->getParameter("type_id");
 
         if ($this->getRequest()->getRequestMethod() === "POST") {
             if (!is_null($token)) {
@@ -32,7 +34,13 @@ class ApiEditSupportUserController extends Controller {
                     $currentCharityID = $this->gateway->getResult()[0]['charity_id'];
 
                     if ($type_id === '3' || $type_id === '2' || $type_id === '1') {
-                        if ($request === 'add' && !is_null($email) &&!is_null($password)) {
+                        if ($request === 'add' && !is_null($email) && !is_null($password) && !is_null($userType_id)  && !is_null($charity_id)) {
+                            $hashed_password = password_hash($password, PASSWORD_DEFAULT);
+                            $this->gateway->addCharitySupport($email, $hashed_password, $userType_id, $charity_id);
+                        } else if ($request === 'add' && !is_null($email) && !is_null($password) && !is_null($userType_id) && $type_id === '1') {
+                            $hashed_password = password_hash($password, PASSWORD_DEFAULT);
+                            $this->gateway->addAppSupport($email, $hashed_password, $userType_id);
+                        } else if ($request === 'add' && !is_null($email) && !is_null($password)) {
                             $hashed_password = password_hash($password, PASSWORD_DEFAULT);
                             $this->gateway->addCharitySupport($email, $hashed_password, "4", $currentCharityID);
                         } else if ($request === 'delete' && !is_null($id)) {
