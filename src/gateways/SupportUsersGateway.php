@@ -21,6 +21,12 @@ class SupportUsersGateway extends Gateway {
         $this->setResult($result);
     }
 
+    public function findTheSupportUsers() {
+        $sql = "SELECT user.id, user.email, user.charity_id, charities.title FROM user JOIN charities WHERE (user.charity_id = charities.id) AND type_id = 4";
+        $result = $this->getDatabase()->executeSQL($sql);
+        $this->setResult($result);
+    }
+
     public function findAllSupportUsers($charity_id) {
         $sql = "SELECT user.id, user.email, user.charity_id, charities.title FROM user JOIN charities WHERE (user.charity_id = charities.id) AND charities.id = :charity_id AND type_id = 4";
         $params = ["charity_id" => $charity_id];
