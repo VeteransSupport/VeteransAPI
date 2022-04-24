@@ -13,7 +13,7 @@ class VeteranUsersGateway extends Gateway {
     public function findAllVeteranUsers() {
         $this->sql .= "
             WHERE type_id = 5 
-            ORDER BY id";
+            ORDER BY mood";
         $result = $this->getDatabase()->executeSQL($this->sql);
         $this->setResult($result);
     }

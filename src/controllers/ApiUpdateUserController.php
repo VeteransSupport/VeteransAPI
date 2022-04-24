@@ -35,6 +35,8 @@ class ApiUpdateUserController extends Controller {
         $request = $this->getRequest()->getParameter("request");
 
         $full_name = $this->getRequest()->getParameter("full_name");
+        $mood = $this->getRequest()->getParameter("mood");
+        $last_updated = $this->getRequest()->getParameter("last_updated");
         $email = $this->getRequest()->getParameter("username");
         $service_number = $this->getRequest()->getParameter("service_number");
         $phone_number = $this->getRequest()->getParameter("phone_number");
@@ -73,6 +75,31 @@ class ApiUpdateUserController extends Controller {
                         return $this->gateway->getResult();
                     }
                     $this->gateway->setResult('');
+                    $this->getResponse()->setMessage("Unauthorized");
+                    $this->getResponse()->setStatusCode(401);
+                }
+            } else if ($request === "update_mood") {
+                if (!is_null($token) && !is_null($mood) && !is_null($last_updated)) {
+                    $key = SECRET_KEY;
+                    $decoded = JWT::decode($token, new Key($key, 'HS256'));
+                    $user_id = $decoded->user_id;
+
+                    $this->gateway->findTypeAndCharityById($user_id);
+                    if (count($this->gateway->getResult()) == 1){
+                        $user_type_id = $this->gateway->getResult()[0]['type_id'];
+                        if ($user_type_id === '5') {
+                            $this->gateway->updateMoodById($user_id, $mood, $last_updated);
+                        } else {
+                            $this->gateway->setResult('');
+                            $this->getResponse()->setMessage("Unauthorized");
+                            $this->getResponse()->setStatusCode(401);
+                        }
+                        return $this->gateway->getResult();
+                    }
+                    $this->gateway->setResult('');
+                    $this->getResponse()->setMessage("Unauthorized");
+                    $this->getResponse()->setStatusCode(401);
+                } else {
                     $this->getResponse()->setMessage("Unauthorized");
                     $this->getResponse()->setStatusCode(401);
                 }
