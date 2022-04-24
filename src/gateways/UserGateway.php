@@ -31,14 +31,7 @@ class UserGateway extends Gateway  {
     }
 
     public function findTypeAndCharityById($id) {
-        $sql = "SELECT id, type_id, charity_id, full_name, email, service_number, phone_number, contacts, six_digit_code, mood, last_updated FROM user WHERE id = :id";
-        $params = [":id" => $id];
-        $result = $this->getDatabase()->executeSQL($sql, $params);
-        $this->setResult($result);
-    }
-
-    public function findUserRegistry($id) {
-        $sql = "SELECT id, type FROM user_type WHERE id > :id";
+        $sql = "SELECT id, type_id, charity_id, full_name, email, service_number, phone_number, contacts, six_digit_code, mood, last_updated, quiz_answers FROM user WHERE id = :id";
         $params = [":id" => $id];
         $result = $this->getDatabase()->executeSQL($sql, $params);
         $this->setResult($result);
@@ -142,6 +135,13 @@ class UserGateway extends Gateway  {
     public function updateMoodById($user_id, $mood, $last_updated) {
         $sql = "UPDATE user SET mood = :mood, last_updated = :last_updated WHERE id = :id";
         $params = [":id" => $user_id, ":mood" => $mood, ":last_updated" => $last_updated];
+        $result = $this->getDatabase()->executeSQL($sql, $params);
+        $this->setResult($result);
+    }
+
+    public function updateMoodAndQuizById($user_id, $mood, $last_updated, $quiz_results) {
+        $sql = "UPDATE user SET mood = :mood, last_updated = :last_updated, quiz_answers = :quiz_results WHERE id = :id";
+        $params = [":id" => $user_id, ":mood" => $mood, ":last_updated" => $last_updated, ":quiz_results" => $quiz_results];
         $result = $this->getDatabase()->executeSQL($sql, $params);
         $this->setResult($result);
     }
