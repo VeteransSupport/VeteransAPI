@@ -19,8 +19,10 @@ class Request {
      */
     public function __construct() {
         $this->path = parse_url($_SERVER["REQUEST_URI"])['path'];
-        $this->path = strtolower(str_replace($this->basePath, "", $this->path));
-        $this->path = trim($this->path,"/");
+        if ($this->basePath !== "/") {
+            $this->path = strtolower(str_replace($this->basePath, "", $this->path));
+        }
+        $this->path = strtolower(trim($this->path,"/"));
         $this->requestMethod = $_SERVER["REQUEST_METHOD"];
     }
 
